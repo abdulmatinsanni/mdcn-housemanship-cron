@@ -46,7 +46,7 @@ const sendNotification = async (text) => {
 
 let previousVacanciesList = [];
 
-cron.schedule("*/5 * * * * *", async () => {
+cron.schedule("*/5 * * * *", async () => {
   try {
     const authorizationToken = await getJwtToken();
     const currentVacancies = await getVacancies(authorizationToken);
