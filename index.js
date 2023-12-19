@@ -37,7 +37,7 @@ const getVacancies = async (jwt) => {
 const sendNotification = async (text) => {
   const mailOptions = {
     from: process.env.MAIL_FROM_ADDRESS,
-    to: process.env.MDCN_HJ_PORTAL_EMAIL,
+    to: process.env.MAIL_TO_ADDRESS,
     subject: "Update on MDCN Housemanship",
     text: text,
   };
@@ -46,7 +46,7 @@ const sendNotification = async (text) => {
 
 let previousVacanciesList = [];
 
-cron.schedule("*/5 * * * *", async () => {
+cron.schedule("*/5 * * * * ", async () => {
   try {
     const authorizationToken = await getJwtToken();
     const currentVacancies = await getVacancies(authorizationToken);
@@ -54,7 +54,7 @@ cron.schedule("*/5 * * * *", async () => {
     const currentVacanciesList = currentVacancies
       .map((v) => v.centerName)
       .join("\n");
-
+    
     if (currentVacanciesList === previousVacanciesList) {
       console.log("No vacancies update on MDCN Housemanship Portal.");
       return;
